@@ -1,6 +1,7 @@
 import React, { useState, useEffect } from "react";
-import { Button, Typography, CircularProgress } from "@mui/material";
+import { Button, Typography, CircularProgress, Box } from "@mui/material";
 import { Email, Lock } from "@mui/icons-material";
+import { useNavigate } from "react-router-dom";
 
 import { useAuth } from "../../service/auth-context";
 import { LoginContainer, LoginForm, CustomTextField } from "./styles";
@@ -17,6 +18,7 @@ const Login: React.FC = () => {
   const [errorMessage, setErrorMessage] = useState("");
   const [loading, setLoading] = useState(false);
   const { login } = useAuth();
+  const navigate = useNavigate();
 
   useEffect(() => {
     if (errorMessage) {
@@ -44,6 +46,10 @@ const Login: React.FC = () => {
         );
       }
     }
+  };
+
+  const handleNavigateToSignup = () => {
+    navigate("/auth/signup");
   };
 
   return (
@@ -91,6 +97,18 @@ const Login: React.FC = () => {
             {errorMessage}
           </Typography>
         )}
+        <Box sx={{ display: "flex", justifyContent: "space-between" }}>
+          <Typography variant="body2" style={{ marginTop: "10px" }}>
+            Não tem uma conta?{" "}
+          </Typography>
+          <Button
+            color="success"
+            onClick={handleNavigateToSignup}
+            style={{ textTransform: "none" }}
+          >
+            Cadastre-se
+          </Button>
+        </Box>
       </LoginForm>
     </LoginContainer>
   );
