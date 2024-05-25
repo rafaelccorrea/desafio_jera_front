@@ -1,31 +1,14 @@
-import { useState, useEffect } from "react";
+import React, { useState, useEffect } from "react";
 import { useParams } from "react-router-dom";
-import {
-  Container,
-  Typography,
-  Grid,
-  Card,
-  CardContent,
-  CardMedia,
-  IconButton,
-  CircularProgress,
-} from "@mui/material";
-import { styled } from "@mui/system";
+import { Container, Typography, Grid, CircularProgress } from "@mui/material";
 import Header from "../../components/header";
-import axios from "axios";
-import AddIcon from "@mui/icons-material/Add";
-
+import MovieCard from "../../components/movie/movie-card";
+import { Movie } from "../../components/movie/types/movie";
+import MovieService from "../../service/movie-service";
 import Pagination from "../../components/pagination";
 import api from "../../service/api";
 
-type Movie = {
-  id: number;
-  title: string;
-  overview: string;
-  poster_path: string;
-};
-
-const MovieList = () => {
+const MovieList: React.FC = () => {
   const { id, name } = useParams();
   const [movies, setMovies] = useState<Movie[]>([]);
   const [loading, setLoading] = useState(true);
@@ -38,16 +21,14 @@ const MovieList = () => {
 
   useEffect(() => {
     const fetchMovies = async () => {
+      setLoading(true);
       try {
-        const response = await axios.get(
-          `https://api.themoviedb.org/3/discover/movie?api_key=a7d14a7c7f5ee9c82fa97bd7a5b8543a&language=pt-BR&sort_by=popularity.desc&page=${page}`
-        );
-        setMovies(response.data.results);
-        setTotalPages(response.data.total_pages);
+        const { results, total_pages } = await MovieService.getMovies(page);
+        setMovies(results);
+        setTotalPages(total_pages);
         setLoading(false);
         setError(false);
       } catch (error) {
-        console.error("Erro ao buscar filmes:", error);
         setError(true);
         setErrorMessage(
           "Erro ao buscar filmes. Por favor, tente novamente mais tarde."
@@ -97,8 +78,9 @@ const MovieList = () => {
       });
       console.log(response);
       setSuccessMessage(`O filme "${movieTitle}" foi adicionado ao perfil.`);
-    } catch (error: unknown) {
-      if (axios.isAxiosError(error)) {
+      // eslint-disable-next-line @typescript-eslint/no-explicit-any
+    } catch (error: any) {
+      if (error) {
         console.error(
           "Erro ao adicionar filme ao perfil:",
           error.response?.data.error
@@ -186,47 +168,10 @@ const MovieList = () => {
       <Grid container justifyContent="center" alignItems="center" spacing={3}>
         {movies.map((movie) => (
           <Grid item xs={12} sm={6} md={4} key={movie.id}>
-            <MovieCard>
-              <CardMedia
-                component="img"
-                height="300"
-                image={`https://image.tmdb.org/t/p/w500${movie.poster_path}`}
-                alt={movie.title}
-              />
-              <IconButton
-                onClick={() => handleAddMovieToProfile(movie.id, movie.title)}
-                style={{
-                  position: "absolute",
-                  color: "white",
-                  backgroundColor: "green",
-                  width: 30,
-                  height: 30,
-                  cursor: "pointer",
-                }}
-              >
-                <AddIcon />
-              </IconButton>
-
-              <CardContent>
-                <Typography
-                  variant="h5"
-                  component="h2"
-                  style={{ color: "white" }}
-                >
-                  {movie.title}
-                </Typography>
-                <Typography
-                  variant="body2"
-                  color="textSecondary"
-                  component="p"
-                  style={{ color: "white" }}
-                >
-                  {movie.overview.length > 255
-                    ? movie.overview.substring(0, 255) + "..."
-                    : movie.overview}
-                </Typography>
-              </CardContent>
-            </MovieCard>
+            <MovieCard
+              movie={movie}
+              onAddMovieToProfile={handleAddMovieToProfile}
+            />
           </Grid>
         ))}
       </Grid>
@@ -241,12 +186,5 @@ const MovieList = () => {
     </Container>
   );
 };
-
-const MovieCard = styled(Card)`
-  display: flex;
-  flex-direction: column;
-  height: 100%;
-  background-color: rgba(0, 0, 0, 0.8);
-`;
 
 export default MovieList;
