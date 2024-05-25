@@ -1,7 +1,8 @@
-import React from "react";
+import React, { useState } from "react";
 import { Button, Container, TextField, Typography } from "@mui/material";
 import { Email, Lock } from "@mui/icons-material";
 import styled from "@emotion/styled";
+import { useAuth } from "../../service/auth-context";
 
 const LoginContainer = styled(Container)`
   display: flex;
@@ -19,18 +20,29 @@ const LoginForm = styled.form`
 `;
 
 const Login: React.FC = () => {
+  const [username, setUsername] = useState("");
+  const [password, setPassword] = useState("");
+  const { login } = useAuth();
+
+  const handleLogin = async (e: React.FormEvent) => {
+    e.preventDefault();
+    await login(username, password);
+  };
+
   return (
     <LoginContainer>
       <Typography variant="h4" gutterBottom>
         Login
       </Typography>
-      <LoginForm>
+      <LoginForm onSubmit={handleLogin}>
         <TextField
           label="Email"
           type="email"
           variant="outlined"
           fullWidth
           required
+          value={username}
+          onChange={(e) => setUsername(e.target.value)}
           InputProps={{
             startAdornment: <Email />,
           }}
@@ -41,11 +53,13 @@ const Login: React.FC = () => {
           variant="outlined"
           fullWidth
           required
+          value={password}
+          onChange={(e) => setPassword(e.target.value)}
           InputProps={{
             startAdornment: <Lock />,
           }}
         />
-        <Button variant="contained" color="primary" fullWidth>
+        <Button type="submit" variant="contained" color="primary" fullWidth>
           Sign In
         </Button>
       </LoginForm>
