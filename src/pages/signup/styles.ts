@@ -1,5 +1,6 @@
-import styled from "@emotion/styled";
+
 import { Container, TextField } from "@mui/material";
+import styled from "styled-components";
 
 export const SignupContainer = styled(Container)`
   display: flex;
