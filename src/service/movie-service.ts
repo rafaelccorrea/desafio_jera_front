@@ -27,6 +27,23 @@ const MovieService = {
     });
     console.log(response);
   },
+
+  getMoviesByIds: async (ids: number[]): Promise<Movie[]> => {
+    const moviesData: Movie[] = [];
+
+    for (const id of ids) {
+      try {
+        const response = await axios.get(
+          `${BASE_URL}/movie/${id}?api_key=${API_KEY}&language=pt-BR`
+        );
+        moviesData.push(response.data);
+      } catch (error) {
+        console.error(`Erro ao buscar filme com ID ${id}:`, error);
+      }
+    }
+
+    return moviesData;
+  },
 };
 
 export default MovieService;

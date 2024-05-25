@@ -1,7 +1,7 @@
 import React from "react";
 import { AppBar, Toolbar, Typography, Button } from "@mui/material";
 import { useAuth } from "../../service/auth-context";
-import { Link, useLocation } from "react-router-dom";
+import { Link, useLocation, useParams } from "react-router-dom";
 
 interface HeaderProps {
   logoSrc: string;
@@ -10,6 +10,7 @@ interface HeaderProps {
 const Header: React.FC<HeaderProps> = ({ logoSrc }) => {
   const { logout } = useAuth();
   const location = useLocation();
+  const { id } = useParams();
 
   const handleLogout = () => {
     logout();
@@ -28,14 +29,24 @@ const Header: React.FC<HeaderProps> = ({ logoSrc }) => {
           />
         </Typography>
         {showExtraButton && (
-          <Button
-            color="inherit"
-            sx={{ marginRight: 7 }}
-            component={Link}
-            to="/"
-          >
-            Perfis
-          </Button>
+          <>
+            <Button
+              color="inherit"
+              sx={{ marginRight: 7 }}
+              component={Link}
+              to={`/meus/filmes/${id}`}
+            >
+              Meus Filmes
+            </Button>
+            <Button
+              color="inherit"
+              sx={{ marginRight: 7 }}
+              component={Link}
+              to="/"
+            >
+              Perfis
+            </Button>
+          </>
         )}
         <Button color="inherit" onClick={handleLogout} sx={{ marginRight: 7 }}>
           Logout

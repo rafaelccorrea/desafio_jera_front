@@ -32,6 +32,7 @@ const loginApi = async (username: string, password: string) => {
 
     const decoded: User = jwtDecode(accessToken);
     setItem("userAuth", JSON.stringify(decoded));
+    setItem("accessToken", accessToken)
 
     return decoded;
   } catch (error) {
@@ -68,6 +69,7 @@ export const AuthProvider: React.FC<{ children: React.ReactNode }> = ({
     setIsAuthenticated(false);
     setUser(null);
     removeItem("userAuth");
+    removeItem("accessToken");
   };
 
   return (
