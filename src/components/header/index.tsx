@@ -10,7 +10,7 @@ interface HeaderProps {
 const Header: React.FC<HeaderProps> = ({ logoSrc }) => {
   const { logout } = useAuth();
   const location = useLocation();
-  const { id } = useParams();
+  const { id, name } = useParams();
 
   const handleLogout = () => {
     logout();
@@ -34,7 +34,7 @@ const Header: React.FC<HeaderProps> = ({ logoSrc }) => {
               color="inherit"
               sx={{ marginRight: 7 }}
               component={Link}
-              to={`/meus/filmes/${id}`}
+              to={`/meus/filmes/${id}/${name}`}
             >
               Meus Filmes
             </Button>

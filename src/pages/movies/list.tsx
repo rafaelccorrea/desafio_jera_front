@@ -1,11 +1,12 @@
 import React, { useEffect, useState } from "react";
-import { useParams } from "react-router-dom";
+import { Link, useParams } from "react-router-dom";
 import {
   Typography,
   CircularProgress,
   Grid,
   Box,
   Container,
+  Button,
 } from "@mui/material";
 import Header from "../../components/header";
 import styled from "styled-components";
@@ -21,7 +22,7 @@ export const ContainerWrapper = styled.div`
 `;
 
 const MyMoviesPage: React.FC = () => {
-  const { id } = useParams<{ id: string }>();
+  const { id, name } = useParams();
   const [movies, setMovies] = useState<Movie[]>([]);
   const [loading, setLoading] = useState<boolean>(true);
   const [error, setError] = useState<boolean>(false);
@@ -70,7 +71,14 @@ const MyMoviesPage: React.FC = () => {
   return (
     <Container sx={{ mt: 20 }}>
       <Box sx={{ mb: 15 }}>
-        <Header logoSrc="../../nextlogo.png" />
+        <Header logoSrc="../../../nextlogo.png" />
+      </Box>
+      <Box>
+        <Link to={`/filmes/${id}/${name}`}>
+          <Button variant="contained" color="success">
+            Voltar a lista de filmes
+          </Button>{" "}
+        </Link>
       </Box>
       {loading ? (
         <CircularProgress />

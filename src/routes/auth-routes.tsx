@@ -9,7 +9,7 @@ const AuthenticatedRoutes: React.FC = () => {
     <Routes>
       <Route path="/" element={<Home />} />
       <Route path="/filmes/:id/:name" element={<MovieList />} />
-      <Route path="/meus/filmes/:id" element={<MyMoviesPage/>} />
+      <Route path="/meus/filmes/:id/:name" element={<MyMoviesPage/>} />
       <Route element={<Navigate replace to="/" />} path="*" />
     </Routes>
   );
