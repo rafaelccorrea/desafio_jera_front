@@ -49,7 +49,7 @@ const MovieCard: React.FC<MovieCardProps> = ({
         <AddIcon />
       </IconButton>
 
-      <CardContent>
+      <CardContent sx={{ backgroundColor: "black" }}>
         <Typography variant="h5" component="h2" style={{ color: "white" }}>
           {movie.title}
         </Typography>
