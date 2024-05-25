@@ -1,10 +1,12 @@
 import React, { createContext, useContext, useState } from "react";
 import axios from "axios";
-import { setItem } from "../utils/local-storage";
+import { getItem, setItem } from "../utils/local-storage";
 import { jwtDecode } from "jwt-decode";
+import { User } from "./types";
 
 type AuthContextType = {
   isAuthenticated: boolean;
+  user: User | null;
   login: (username: string, password: string) => Promise<void>;
   logout: () => void;
 };
@@ -28,37 +30,47 @@ const loginApi = async (username: string, password: string) => {
 
     const { accessToken } = response.data;
 
-    const decoded = jwtDecode(accessToken);
-
+    const decoded: User = jwtDecode(accessToken);
     setItem("userAuth", JSON.stringify(decoded));
 
-    return true;
+    return decoded;
   } catch (error) {
     console.error("Error logging in:", error);
-    return false;
+    throw new Error("Failed to log in");
   }
 };
 
 export const AuthProvider: React.FC<{ children: React.ReactNode }> = ({
   children,
 }) => {
-  const [isAuthenticated, setIsAuthenticated] = useState(false);
+  const userFromStorage = getItem("userAuth");
+  const initialUser: User | null = userFromStorage
+    ? JSON.parse(userFromStorage)
+    : null;
+  const [user, setUser] = useState<User | null>(initialUser);
+
+  const [isAuthenticated, setIsAuthenticated] = useState<boolean>(
+    !!getItem("userAuth")
+  );
 
   const login = async (username: string, password: string) => {
-    const isAuthenticated = await loginApi(username, password);
-    if (isAuthenticated) {
+    try {
+      const user = await loginApi(username, password);
+      setUser(user);
       setIsAuthenticated(true);
-    } else {
+    } catch (error) {
       setIsAuthenticated(false);
     }
   };
 
   const logout = () => {
     setIsAuthenticated(false);
+    setUser(null);
+    setItem("userAuth", null);
   };
 
   return (
-    <AuthContext.Provider value={{ isAuthenticated, login, logout }}>
+    <AuthContext.Provider value={{ isAuthenticated, user, login, logout }}>
       {children}
     </AuthContext.Provider>
   );
