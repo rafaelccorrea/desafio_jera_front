@@ -16,13 +16,21 @@ const Pagination: React.FC<PaginationProps> = ({
 }) => {
   return (
     <>
-      <Button onClick={onPrevPage} disabled={page === 1}>
+      <Button
+        sx={{ color: "white" }}
+        onClick={onPrevPage}
+        disabled={page === 1}
+      >
         Página Anterior
       </Button>
-      <Typography variant="h6" style={{ margin: "0 10px" }}>
+      <Typography variant="h6" style={{ margin: "0 10px", color: "white" }}>
         Página {page} de {totalPages}
       </Typography>
-      <Button onClick={onNextPage} disabled={page === totalPages}>
+      <Button
+        sx={{ color: "white" }}
+        onClick={onNextPage}
+        disabled={page === totalPages}
+      >
         Próxima Página
       </Button>
     </>

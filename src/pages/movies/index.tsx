@@ -1,6 +1,12 @@
 import React, { useState, useEffect } from "react";
 import { useParams } from "react-router-dom";
-import { Container, Typography, Grid, CircularProgress } from "@mui/material";
+import {
+  Container,
+  Typography,
+  Grid,
+  CircularProgress,
+  TextField,
+} from "@mui/material";
 import Header from "../../components/header";
 import MovieCard from "../../components/movie/movie-card";
 import { Movie } from "../../components/movie/types/movie";
@@ -18,12 +24,16 @@ const MovieList: React.FC = () => {
   const [page, setPage] = useState(1);
   const [totalPages, setTotalPages] = useState(0);
   const [addingMovie, setAddingMovie] = useState(false);
+  const [searchTerm, setSearchTerm] = useState("");
 
   useEffect(() => {
     const fetchMovies = async () => {
       setLoading(true);
       try {
-        const { results, total_pages } = await MovieService.getMovies(page);
+        const { results, total_pages } = await MovieService.getMovies(
+          page,
+          searchTerm
+        );
         setMovies(results);
         setTotalPages(total_pages);
         setLoading(false);
@@ -38,7 +48,7 @@ const MovieList: React.FC = () => {
     };
 
     fetchMovies();
-  }, [page]);
+  }, [page, searchTerm]);
 
   useEffect(() => {
     let errorTimeout: NodeJS.Timeout;
@@ -102,6 +112,22 @@ const MovieList: React.FC = () => {
     setPage((prevPage) => prevPage - 1);
   };
 
+  const handleSearch = () => {
+    setPage(1); // Reset page when initiating a new search
+  };
+
+  const handleSearchInputChange = (
+    event: React.ChangeEvent<HTMLInputElement>
+  ) => {
+    setSearchTerm(event.target.value);
+  };
+
+  const handleKeyPress = (event: React.KeyboardEvent<HTMLInputElement>) => {
+    if (event.key === "Enter") {
+      handleSearch();
+    }
+  };
+
   return (
     <Container sx={{ mt: 20 }}>
       <Header logoSrc="../../nextlogo.png" />
@@ -112,6 +138,47 @@ const MovieList: React.FC = () => {
       >
         Lista de filmes para {name}
       </Typography>
+
+      <TextField
+        label="Pesquisar filme"
+        variant="outlined"
+        value={searchTerm}
+        onChange={handleSearchInputChange}
+        onKeyPress={handleKeyPress}
+        sx={{
+          marginBottom: 3,
+          backgroundColor: "white",
+          borderRadius: 1,
+          width: "100%",
+          "& .MuiInputLabel-root": {
+            color: "green",
+          },
+          "& .MuiOutlinedInput-root": {
+            borderRadius: 1,
+            "& fieldset": {
+              borderColor: "green",
+            },
+            "&:hover fieldset": {
+              borderColor: "green",
+            },
+            "&.Mui-focused fieldset": {
+              borderColor: "green",
+            },
+          },
+        }}
+        InputProps={{
+          style: {
+            color: "green",
+            paddingLeft: 10,
+          },
+        }}
+        InputLabelProps={{
+          style: {
+            color: "green",
+            fontSize: 20,
+          },
+        }}
+      />
 
       {loading || addingMovie ? (
         <div
