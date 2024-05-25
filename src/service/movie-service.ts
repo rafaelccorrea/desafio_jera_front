@@ -2,7 +2,7 @@ import axios from "axios";
 import { Movie } from "../components/movie/types/movie";
 import api from "./api";
 
-const API_KEY = "a7d14a7c7f5ee9c82fa97bd7a5b8543a";
+const API_KEY = import.meta.env.VITE_API_API_KEY;
 const BASE_URL = "https://api.themoviedb.org/3";
 
 const MovieService = {
