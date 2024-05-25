@@ -20,7 +20,7 @@ export const ProfileCard = styled.div`
   border-radius: 10px;
   box-shadow: 0px 2px 4px rgba(0, 0, 0, 0.2);
   transition: transform 0.3s ease-in-out;
-  margin-top: 200px;
+  margin-top: 100px;
 
   &:hover {
     transform: translateY(-5px);

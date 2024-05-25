@@ -1,8 +1,8 @@
 import React, { createContext, useContext, useState } from "react";
-import axios from "axios";
-import { getItem, setItem } from "../utils/local-storage";
+import { getItem, removeItem, setItem } from "../utils/local-storage";
 import { jwtDecode } from "jwt-decode";
 import { User } from "./types";
+import api from "./api";
 
 type AuthContextType = {
   isAuthenticated: boolean;
@@ -23,7 +23,7 @@ export const useAuth = () => {
 
 const loginApi = async (username: string, password: string) => {
   try {
-    const response = await axios.post("http://localhost:3000/auth/login", {
+    const response = await api.post("/auth/login", {
       email: username,
       password,
     });
@@ -66,7 +66,7 @@ export const AuthProvider: React.FC<{ children: React.ReactNode }> = ({
   const logout = () => {
     setIsAuthenticated(false);
     setUser(null);
-    setItem("userAuth", null);
+    removeItem("userAuth");
   };
 
   return (
