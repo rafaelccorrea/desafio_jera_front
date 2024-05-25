@@ -29,7 +29,7 @@ const MyMoviesPage: React.FC = () => {
   useEffect(() => {
     const fetchMovies = async () => {
       try {
-        const response = await api.get(`/filmes/meus-filmes/${id}`);
+        const response = await api.get(`/movies/me/${id}`);
         // eslint-disable-next-line @typescript-eslint/no-explicit-any
         const moviesData = response.data.map(async (item: any) => {
           const externalId = item.movie.external_id;
@@ -54,7 +54,7 @@ const MyMoviesPage: React.FC = () => {
 
   const handleToggleWatched = async (movieId: number, watched: boolean) => {
     try {
-      await api.put(`/filmes/${id}/${movieId}/watch`, { watched });
+      await api.put(`/movies/${id}/${movieId}/watch`, { watched });
 
       setMovies(
         (prevMovies) =>

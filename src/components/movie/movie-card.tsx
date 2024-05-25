@@ -1,6 +1,5 @@
 import React from "react";
 import {
-  Card,
   CardContent,
   CardMedia,
   IconButton,
@@ -9,8 +8,8 @@ import {
 import AddIcon from "@mui/icons-material/Add";
 import VisibilityIcon from "@mui/icons-material/Visibility";
 import VisibilityOffIcon from "@mui/icons-material/VisibilityOff";
-import styled from "styled-components";
 import { Movie } from "./types/movie";
+import { StyledCard } from "./styles";
 
 interface MovieCardProps {
   movie: Movie;
@@ -34,7 +33,6 @@ const MovieCard: React.FC<MovieCardProps> = ({
   };
 
   const handleToggleWatched = () => {
-    console.log("Botão para marcar como assistido clicado");
     if (onToggleWatched) {
       const watched = !movie.watched;
       onToggleWatched(movie.id, watched);
@@ -59,8 +57,6 @@ const MovieCard: React.FC<MovieCardProps> = ({
             width: 30,
             height: 30,
             cursor: "pointer",
-            top: 10,
-            right: 10,
           }}
         >
           <AddIcon />
@@ -100,12 +96,4 @@ const MovieCard: React.FC<MovieCardProps> = ({
     </StyledCard>
   );
 };
-
-const StyledCard = styled(Card)`
-  display: flex;
-  flex-direction: column;
-  height: 100%;
-  background-color: rgba(0, 0, 0, 0.8);
-`;
-
 export default MovieCard;

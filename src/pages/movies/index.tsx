@@ -6,6 +6,7 @@ import {
   Grid,
   CircularProgress,
   TextField,
+  Box,
 } from "@mui/material";
 import Header from "../../components/header";
 import MovieCard from "../../components/movie/movie-card";
@@ -81,7 +82,7 @@ const MovieList: React.FC = () => {
   ) => {
     setAddingMovie(true);
     try {
-      const response = await api.post(`/perfils/${id}/movies`, {
+      const response = await api.post(`/profile/${id}/movies`, {
         external_id: movieId,
         title: movieTitle,
         category: "Teste",
@@ -181,7 +182,7 @@ const MovieList: React.FC = () => {
       />
 
       {loading || addingMovie ? (
-        <div
+        <Box
           style={{
             position: "fixed",
             top: "50%",
@@ -191,11 +192,11 @@ const MovieList: React.FC = () => {
           }}
         >
           <CircularProgress style={{ color: "white" }} />
-        </div>
+        </Box>
       ) : null}
 
       {error && (
-        <div
+        <Box
           style={{
             position: "fixed",
             top: "50%",
@@ -210,11 +211,11 @@ const MovieList: React.FC = () => {
           <Typography variant="body1" color="white" align="center">
             {errorMessage}
           </Typography>
-        </div>
+        </Box>
       )}
 
       {successMessage && (
-        <div
+        <Box
           style={{
             position: "fixed",
             top: "50%",
@@ -229,7 +230,7 @@ const MovieList: React.FC = () => {
           <Typography variant="body1" color="success" align="center">
             {successMessage}
           </Typography>
-        </div>
+        </Box>
       )}
 
       <Grid container justifyContent="center" alignItems="center" spacing={3}>

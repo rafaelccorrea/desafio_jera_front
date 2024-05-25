@@ -39,7 +39,7 @@ const Signup: React.FC = () => {
     e.preventDefault();
     setLoading(true);
     try {
-      await api.post("/usuarios", {
+      await api.post("/users/create", {
         email,
         password,
         name,
