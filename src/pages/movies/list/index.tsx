@@ -8,18 +8,11 @@ import {
   Container,
   Button,
 } from "@mui/material";
-import Header from "../../components/header";
-import styled from "styled-components";
-import MovieService from "../../service/movie-service";
-import api from "../../service/api";
-import { Movie } from "../../components/movie/types/movie";
-import MovieCard from "../../components/movie/movie-card";
-
-export const ContainerWrapper = styled.div`
-  display: flex;
-  flex-direction: column;
-  min-height: 100vh;
-`;
+import Header from "../../../components/header";
+import MovieService from "../../../service/movie-service";
+import api from "../../../service/api";
+import { Movie } from "../../../components/movie/types/movie";
+import MovieCard from "../../../components/movie/movie-card";
 
 const MyMoviesPage: React.FC = () => {
   const { id, name } = useParams();
@@ -83,16 +76,16 @@ const MyMoviesPage: React.FC = () => {
       {loading ? (
         <CircularProgress />
       ) : error ? (
-        <div style={{ textAlign: "center", marginTop: "20px" }}>
+        <Box style={{ textAlign: "center", marginTop: "20px" }}>
           <img
-            src={"../../error.png"}
+            src={"../../../error.png"}
             alt="Erro ao carregar filmes"
             style={{ maxWidth: "100%", height: "auto" }}
           />
           <Typography color="error">{error}</Typography>
-        </div>
+        </Box>
       ) : movies.length === 0 ? (
-        <div style={{ textAlign: "center", marginTop: "20px" }}>
+        <Box style={{ textAlign: "center", marginTop: "20px" }}>
           <img
             src={"../../error.png"}
             alt="Nenhum filme encontrado"
@@ -101,7 +94,7 @@ const MyMoviesPage: React.FC = () => {
           <Typography variant="h6" color="textSecondary">
             Nenhum filme encontrado
           </Typography>
-        </div>
+        </Box>
       ) : (
         <>
           <Typography variant="h4" gutterBottom>
