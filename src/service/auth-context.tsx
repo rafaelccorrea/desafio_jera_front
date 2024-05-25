@@ -36,7 +36,7 @@ const loginApi = async (username: string, password: string) => {
     return decoded;
   } catch (error) {
     console.error("Error logging in:", error);
-    throw new Error("Failed to log in");
+    throw error
   }
 };
 
@@ -60,6 +60,7 @@ export const AuthProvider: React.FC<{ children: React.ReactNode }> = ({
       setIsAuthenticated(true);
     } catch (error) {
       setIsAuthenticated(false);
+      throw error;
     }
   };
 
