@@ -1,30 +1,48 @@
-# React + TypeScript + Vite
+# Projeto Desafio Jera
 
-This template provides a minimal setup to get React working in Vite with HMR and some ESLint rules.
+Este é um projeto de exemplo desenvolvido com o objetivo de demonstrar habilidades em desenvolvimento frontend utilizando React, TypeScript, Material-UI e Styled Components.
 
-Currently, two official plugins are available:
+## Tecnologias Utilizadas
 
-- [@vitejs/plugin-react](https://github.com/vitejs/vite-plugin-react/blob/main/packages/plugin-react/README.md) uses [Babel](https://babeljs.io/) for Fast Refresh
-- [@vitejs/plugin-react-swc](https://github.com/vitejs/vite-plugin-react-swc) uses [SWC](https://swc.rs/) for Fast Refresh
+- **React**: Uma biblioteca JavaScript para a construção de interfaces de usuário.
+- **TypeScript**: Um superconjunto de JavaScript que adiciona tipagem estática opcional.
+- **Material-UI**: Uma biblioteca de componentes React que implementa o design system do Google.
+- **Styled Components**: Uma biblioteca para estilização de componentes utilizando CSS-in-JS.
 
-## Expanding the ESLint configuration
+## Passo a Passo para Rodar o Projeto
 
-If you are developing a production application, we recommend updating the configuration to enable type aware lint rules:
+Siga os passos abaixo para configurar e rodar o projeto localmente:
 
-- Configure the top-level `parserOptions` property like this:
+### Clonar o Repositório
 
-```js
-export default {
-  // other rules...
-  parserOptions: {
-    ecmaVersion: 'latest',
-    sourceType: 'module',
-    project: ['./tsconfig.json', './tsconfig.node.json'],
-    tsconfigRootDir: __dirname,
-  },
-}
+Clone o repositório do projeto usando o comando:
+
+```bash
+git clone https://github.com/rafaelccorrea/desafio_jera_front.git
 ```
 
-- Replace `plugin:@typescript-eslint/recommended` to `plugin:@typescript-eslint/recommended-type-checked` or `plugin:@typescript-eslint/strict-type-checked`
-- Optionally add `plugin:@typescript-eslint/stylistic-type-checked`
-- Install [eslint-plugin-react](https://github.com/jsx-eslint/eslint-plugin-react) and add `plugin:react/recommended` & `plugin:react/jsx-runtime` to the `extends` list
+### Instalar Dependências
+
+Navegue até o diretório do projeto clonado e instale as dependências usando o Yarn:
+
+```bash
+cd desafio_jera_front
+yarn install
+```
+
+### Configurar Variáveis de Ambiente
+
+Crie um arquivo `.env` na raiz do projeto e adicione as seguintes variáveis de ambiente com seus respectivos valores:
+
+```plaintext
+VITE_API_BASE_URL=your_api_base_url
+VITE_API_API_KEY=your_api_key
+```
+
+### Rodar o Projeto
+
+Para iniciar o servidor de desenvolvimento, execute o comando:
+
+```bash
+yarn dev
+```
