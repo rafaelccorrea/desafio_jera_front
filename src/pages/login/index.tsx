@@ -4,6 +4,7 @@ import { Email, Lock } from "@mui/icons-material";
 import { useNavigate } from "react-router-dom";
 import { useAuth } from "../../service/auth-context";
 import { LoginContainer, LoginForm, CustomTextField } from "./styles";
+import FacebookIcon from '@mui/icons-material/Facebook'; // Importando o ícone do Facebook
 
 interface AuthError {
   response?: {
@@ -16,7 +17,7 @@ const Login: React.FC = () => {
   const [password, setPassword] = useState("");
   const [errorMessage, setErrorMessage] = useState("");
   const [loading, setLoading] = useState(false);
-  const { login } = useAuth();
+  const { login } = useAuth(); // Removendo loginWithFacebook
   const navigate = useNavigate();
 
   useEffect(() => {
@@ -44,6 +45,10 @@ const Login: React.FC = () => {
         setErrorMessage("Ocorreu um erro inesperado. Tente novamente mais tarde.");
       }
     }
+  };
+
+  const handleLoginWithFacebook = () => {
+    window.location.href = 'https://desafio-jera.vercel.app/auth/facebook';
   };
 
   const handleNavigateToSignup = () => {
@@ -85,6 +90,17 @@ const Login: React.FC = () => {
           endIcon={loading && <CircularProgress size={20} />}
         >
           Logar
+        </Button>
+        <Button
+          variant="contained"
+          color="primary"
+          fullWidth
+          onClick={handleLoginWithFacebook}
+          startIcon={<FacebookIcon />}
+          disabled={loading}
+          style={{ marginTop: "10px" }}
+        >
+          Login com Facebook
         </Button>
         {errorMessage && (
           <Typography

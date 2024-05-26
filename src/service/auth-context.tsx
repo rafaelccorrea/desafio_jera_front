@@ -9,6 +9,7 @@ type AuthContextType = {
   user: User | null;
   login: (username: string, password: string) => Promise<void>;
   logout: () => void;
+  loginWithFacebook: () => void;
 };
 
 const AuthContext = createContext<AuthContextType | undefined>(undefined);
@@ -32,12 +33,12 @@ const loginApi = async (username: string, password: string) => {
 
     const decoded: User = jwtDecode(accessToken);
     setItem("userAuth", JSON.stringify(decoded));
-    setItem("accessToken", accessToken)
+    setItem("accessToken", accessToken);
 
     return decoded;
   } catch (error) {
     console.error("Error logging in:", error);
-    throw error
+    throw error;
   }
 };
 
@@ -65,6 +66,15 @@ export const AuthProvider: React.FC<{ children: React.ReactNode }> = ({
     }
   };
 
+  const loginWithFacebook = async () => {
+    try {
+      await api.get("/auth/facebook");
+    } catch (error) {
+      console.error("Error logging in with Facebook:", error);
+      throw error;
+    }
+  };
+
   const logout = () => {
     setIsAuthenticated(false);
     setUser(null);
@@ -73,7 +83,9 @@ export const AuthProvider: React.FC<{ children: React.ReactNode }> = ({
   };
 
   return (
-    <AuthContext.Provider value={{ isAuthenticated, user, login, logout }}>
+    <AuthContext.Provider
+      value={{ isAuthenticated, user, login, logout, loginWithFacebook }}
+    >
       {children}
     </AuthContext.Provider>
   );
