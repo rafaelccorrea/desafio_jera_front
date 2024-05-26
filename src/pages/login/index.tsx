@@ -1,8 +1,7 @@
 import React, { useState, useEffect } from "react";
-import { Button, Typography, CircularProgress, Box } from "@mui/material";
+import { Button, Typography, CircularProgress, Box, InputAdornment } from "@mui/material";
 import { Email, Lock } from "@mui/icons-material";
 import { useNavigate } from "react-router-dom";
-
 import { useAuth } from "../../service/auth-context";
 import { LoginContainer, LoginForm, CustomTextField } from "./styles";
 
@@ -35,15 +34,14 @@ const Login: React.FC = () => {
     try {
       await login(username, password);
       setLoading(false);
+      navigate("/");
     } catch (error) {
       setLoading(false);
       const authError = error as AuthError;
       if (authError.response && authError.response.status === 401) {
         setErrorMessage("Credenciais inválidas. Por favor, tente novamente.");
       } else {
-        setErrorMessage(
-          "Ocorreu um erro inesperado. Tente novamente mais tarde."
-        );
+        setErrorMessage("Ocorreu um erro inesperado. Tente novamente mais tarde.");
       }
     }
   };
@@ -66,7 +64,7 @@ const Login: React.FC = () => {
           required
           value={username}
           onChange={(e) => setUsername(e.target.value)}
-          InputProps={{ startAdornment: <Email /> }}
+          InputProps={{ startAdornment: <InputAdornment position="start"><Email /></InputAdornment> }}
         />
         <CustomTextField
           label="Password"
@@ -76,7 +74,7 @@ const Login: React.FC = () => {
           required
           value={password}
           onChange={(e) => setPassword(e.target.value)}
-          InputProps={{ startAdornment: <Lock /> }}
+          InputProps={{ startAdornment: <InputAdornment position="start"><Lock /></InputAdornment> }}
         />
         <Button
           type="submit"
@@ -97,9 +95,9 @@ const Login: React.FC = () => {
             {errorMessage}
           </Typography>
         )}
-        <Box sx={{ display: "flex", justifyContent: "space-between" }}>
-          <Typography variant="body2" style={{ marginTop: "10px" }}>
-            Não tem uma conta?{" "}
+        <Box sx={{ display: "flex", justifyContent: "space-between", alignItems: "center", marginTop: "10px" }}>
+          <Typography variant="body2">
+            Não tem uma conta?
           </Typography>
           <Button
             color="success"

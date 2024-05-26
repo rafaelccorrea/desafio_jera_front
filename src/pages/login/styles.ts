@@ -6,22 +6,24 @@ export const LoginContainer = styled(Container)`
   flex-direction: column;
   align-items: center;
   justify-content: center;
-  width: 400px;
-  height: 400px;
+  width: 90%;
+  max-width: 400px;
+  height: auto;
+  padding: 20px;
   background-color: white;
   margin: auto;
   position: absolute;
-  top: 0;
-  left: 0;
-  bottom: 0;
-  right: 0;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%);
   border-radius: 8px;
+  box-shadow: 0px 4px 6px rgba(0, 0, 0, 0.1);
 `;
 
 export const LoginForm = styled.form`
   display: flex;
   flex-direction: column;
-  width: 300px;
+  width: 100%;
   gap: 20px;
 `;
 
